@@ -16,26 +16,27 @@ flowchart TD
       PM[ProvisioningManager]
       PM -- Inject --> DCNW
     end
-    subgraph App
+    subgraph App Feature
       direction LR
       subgraph VM[ViewModel]
         direction LR
         Data
         FD([Fetch Data?])
         FD --> LI[Logged In?]
-        LI --> VMN([No])
         LI --> VMY([Yes])
+        LI --> VMN([No])
         VMY -- Request Data ----> M
         subgraph M[Model]
           direction LR
           NW[Networking]
           DB[Database]
-          NW --> RD([Received Data])
-          RD -- Store --> DB
-          DB -- No Data --> NW
+          FR[Fetch Request] --> DB
+          DB -- If No Data --> NW
+          NW -- Store Fetched Data --> DB
+          DB -- Provides --> Data[In Memory Data]
+          NW -- Request Data --> MD[Main Device]
+          MD -- Response Data --> NW
         end
-        RD --> Data
-        DB -- Has Data --> Data
       end
       VMN -- Send Error --> VC
       Data -- Notifies --> VC
