@@ -1,5 +1,40 @@
 # Architecture
 
+
+
+
+```mermaid
+flowchart LR
+    DC[DependencyContainer] -- Provides Injection --> AP
+    subgraph AC[AppCoordinator]
+        AP[AppRouter]
+        subgraph FC[FeatureCoordinator]
+            FCR[Router]
+            subgraph FCVC[ListViewController]
+                subgraph FCVM[ViewModel]
+                    FCRP[RouterProtocol]
+                end
+                UIA1[UIAction] -- Show Detail --> FCRP
+            end
+            subgraph FC2VC[DetailViewController]
+                subgraph FC2VM[ViewModel]
+                    FC2RP[RouterProtocol]
+                end
+                UIA2[UIAction] -- Dismiss --> FC2RP
+            end
+            FCR --- PD[Push Detail]
+            PD --- FCRP
+            FCR --- DD[Dismiss Detail]
+            DD --- FC2RP
+        end
+        AP -- Provide RootVC --> FCR
+        AP --- ACC[Add ChildCoordinator]
+        ACC --- FC
+        FCR -. Push DetailVC -...-> FC2VC
+        FCR -. Dismiss DetailVC -...-> FC2VC
+        FCR -. Request to Dismiss<br>Coordinator .-> AP
+    end
+```
 ```mermaid
 flowchart TD
     subgraph DC[DependencyContainer]
@@ -15,6 +50,7 @@ flowchart TD
       DCNW[Networking]
       PM[ProvisioningManager]
       PM -- Inject --> DCNW
+      PM -- Inject --> FFP
     end
     subgraph App Feature
       direction LR
@@ -47,5 +83,5 @@ flowchart TD
       end
       V -- Sends UIEvents ----> FD
     end
-    DC -- Inject ----> M
+    DC -- Inject -----------> M
 ```
