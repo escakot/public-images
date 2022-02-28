@@ -49,7 +49,7 @@ flowchart TD
       end
       V -- Sends UIEvents ----> FD
     end
-    DC -- Inject -----------> M
+    DC -- Injected by Router -----------> M
 ```
 
 
