@@ -1,40 +1,6 @@
 # Architecture
 
-
-
-
-```mermaid
-flowchart LR
-    DC[DependencyContainer] -- Provides Injection --> AP
-    subgraph AC[AppCoordinator]
-        AP[AppRouter]
-        subgraph FC[FeatureCoordinator]
-            FCR[Router]
-            subgraph FCVC[ListViewController]
-                subgraph FCVM[ViewModel]
-                    FCRP[RouterProtocol]
-                end
-                UIA1[UIAction] -- Show Detail --> FCRP
-            end
-            subgraph FC2VC[DetailViewController]
-                subgraph FC2VM[ViewModel]
-                    FC2RP[RouterProtocol]
-                end
-                UIA2[UIAction] -- Dismiss --> FC2RP
-            end
-            FCR --- PD[Push Detail]
-            PD --- FCRP
-            FCR --- DD[Dismiss Detail]
-            DD --- FC2RP
-        end
-        AP -- Provide RootVC --> FCR
-        AP --- ACC[Add ChildCoordinator]
-        ACC --- FC
-        FCR -. Push DetailVC -...-> FC2VC
-        FCR -. Dismiss DetailVC -...-> FC2VC
-        FCR -. Request to Dismiss<br>Coordinator .-> AP
-    end
-```
+## MVVM
 ```mermaid
 flowchart TD
     subgraph DC[DependencyContainer]
@@ -84,4 +50,64 @@ flowchart TD
       V -- Sends UIEvents ----> FD
     end
     DC -- Inject -----------> M
+```
+
+
+## Coordinator / Router
+```mermaid
+flowchart LR
+    DC[DependencyContainer] -- Provides Injection --> AP
+    subgraph AC[AppCoordinator]
+        AP[AppRouter]
+        AP --- ACC[Add/Remove ChildCoordinator]
+        ACC -.- FC
+        ACC -.- FC2
+        AP --- PRVC[Provide RootVC]
+        PRVC --> FCR
+        PRVC --> FC2R
+
+        subgraph FC[FeatureCoordinator 1]
+            FCR[Router]
+            subgraph FCVC[ListViewController]
+                subgraph FCVM[ViewModel]
+                    FCRP[RouterProtocol]
+                end
+                FCUIA1[UIAction] -- Show Detail --> FCRP
+            end
+            subgraph FCVC2[DetailViewController]
+                subgraph FCVM2[ViewModel]
+                    FCRP2[RouterProtocol]
+                end
+                FCUIA2[UIAction] -- Dismiss --> FCRP2
+            end
+            FCR --- FCPD[Push Detail]
+            FCPD --- FCRP
+            FCR --- FCDD[Dismiss Detail]
+            FCDD --- FCRP2
+            FCR -. Push/Dismiss DetailVC -...-> FCVC2
+        end
+        subgraph FC2[FeatureCoordinator 2]
+            FC2R[Router]
+            subgraph FC2VC[ListViewController]
+                subgraph FC2VM[ViewModel]
+                    FC2RP[RouterProtocol]
+                end
+                FC2UIA1[UIAction] -- Show Detail --> FC2RP
+            end
+            subgraph FC2VC2[DetailViewController]
+                subgraph FC2VM2[ViewModel]
+                    FC2RP2[RouterProtocol]
+                end
+                FC2UIA2[UIAction] -- Dismiss --> FC2RP2
+            end
+            FC2R --- FC2PD[Push Detail]
+            FC2PD --- FC2RP
+            FC2R --- FC2DD[Dismiss Detail]
+            FC2DD --- FC2RP2
+            FC2R -. Push/Dismiss DetailVC -...-> FC2VC2
+        end
+        FCR -.- RDC[Request to Dismiss<br>Coordinator] 
+        FC2R -.- RDC
+        RDC -.-> AP
+    end
 ```
