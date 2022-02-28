@@ -10,7 +10,7 @@ flowchart TD
       subgraph Singletons
         direction TB
         Logger
-        FFP[<a href='./README.md'>FeatureFlagProvider</a>]
+        FFP[<a href='README.md'>FeatureFlagProvider</a>]
       end
       DCDB[Database]
       DCNW[Networking]
