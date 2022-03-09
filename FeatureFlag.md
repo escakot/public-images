@@ -30,6 +30,28 @@ flowchart LR;
     UW <-- Communication ---> BA
 ```
 
+## Application Modules
+```mermaid
+flowchart TB;
+    subgraph FeatureFlagProvider
+        direction LR
+        IR[isReachable]
+        subgraph LaunchDarklySDK
+            LDC[LDClient]
+        end
+        FBC[FallbackClient]
+        IR -- Online --> LDC
+        IR -- Offline --> FBC
+        FBC -- Online --> LDC
+    end
+    FeatureFlagProvider -- Provide Flag --> AP[AppFeature Package]
+    FeatureFlagProvider -- Provide Flag --> Database
+    FeatureFlagProvider -- Provide Flag --> Networking
+    FeatureFlagProvider -- Provide Flag --> ViewModel
+    FeatureFlagProvider -- Provide Flag --> View/ViewControllers
+```
+
+
 
 ```mermaid
 flowchart LR;
