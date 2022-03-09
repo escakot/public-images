@@ -58,7 +58,7 @@ sequenceDiagram
     participant POS
     participant LaunchDarkly
     actor Developer
-    actor CS
+    actor Customer Support
     
     Customer->>POS: Launch
     POS->>LaunchDarkly: Initial Fetch Flags
