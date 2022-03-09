@@ -51,7 +51,38 @@ flowchart TB;
     FeatureFlagProvider -- Provide Flag --> View/ViewControllers
 ```
 
+## Transactions and User Flows
+```mermaid
+sequenceDiagram
+    actor Customer
+    participant POS
+    participant LaunchDarkly
+    
+    actor Developer
+    Customer->>POS: Launch
+    POS->>LaunchDarkly: Initial Fetch Flags
+    LaunchDarkly->>POS: Return Flags
+    POS->>Customer: App Finish Launching
+    loop Daily Restaurant Operations
+        Customer->>POS: Uses 
+        POS->>Customer:  
+        loop Polling every 5 minutes
+            POS->>LaunchDarkly: Fetch Flags
+            LaunchDarkly->>POS: Return Flags
+        end
+    end
+    Customer->>POS: Use New Feature
+    POS->>Developer: App Crashes and Notifies
+    Developer->>LaunchDarkly: Turns off FeatureFlag
+    loop Polling every 5 minutes
+        POS->>LaunchDarkly: Fetch Flags
+        LaunchDarkly->>POS: Return Flags
+    end
+    POS->>Customer: Feature Unavailable
+    Customer->>POS: Uses App without Crashing
+```
 
+## In-depth Logic Flow (Experimental)
 
 ```mermaid
 flowchart LR;
