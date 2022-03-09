@@ -83,8 +83,8 @@ sequenceDiagram
     Customer->>POS: Uses App without Crashing
     Customer->>POS: Uses Updated Feature B
     POS->>Customer: Not Working as Expected
-    Customer->>CS: Calls Customer Support
-    CS->>Developer: Contacts Developer for fix
+    Customer->>Customer Support: Calls Customer Support
+    Customer Support->>Developer: Contact Developer for fix
     Developer->>LaunchDarkly: Turn Off FeatureFlag B
     loop Polling every 5 minutes
         POS->>LaunchDarkly: Fetch Flags
