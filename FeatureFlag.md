@@ -57,8 +57,9 @@ sequenceDiagram
     actor Customer
     participant POS
     participant LaunchDarkly
-    
     actor Developer
+    actor CS
+    
     Customer->>POS: Launch
     POS->>LaunchDarkly: Initial Fetch Flags
     LaunchDarkly->>POS: Return Flags
@@ -71,15 +72,26 @@ sequenceDiagram
             LaunchDarkly->>POS: Return Flags
         end
     end
-    Customer->>POS: Use New Feature
+    Customer->>POS: Uses New Feature A
     POS->>Developer: App Crashes and Notifies
-    Developer->>LaunchDarkly: Turns off FeatureFlag
+    Developer->>LaunchDarkly: Turns Off FeatureFlag A
     loop Polling every 5 minutes
         POS->>LaunchDarkly: Fetch Flags
         LaunchDarkly->>POS: Return Flags
     end
-    POS->>Customer: Feature Unavailable
+    POS->>Customer: Feature A Unavailable
     Customer->>POS: Uses App without Crashing
+    Customer->>POS: Uses Updated Feature B
+    POS->>Customer: Not Working as Expected
+    Customer->>CS: Calls Customer Support
+    CS->>Developer: Contacts Developer for fix
+    Developer->>LaunchDarkly: Turn Off FeatureFlag B
+    loop Polling every 5 minutes
+        POS->>LaunchDarkly: Fetch Flags
+        LaunchDarkly->>POS: Return Flags
+    end
+    POS->>Customer: Use Previous Feature B Implementation 
+    Customer->>POS: Uses App Feature B that works again 
 ```
 
 ## In-depth Logic Flow (Experimental)
