@@ -54,6 +54,11 @@ flowchart TD
 
 
 ## Coordinator / Router
+
+### Navigation using Coordinators and Routers
+The below diagram is an example of how Navigation should be handled. By using this design pattern, we can navigate to any part of the Application through Universal/Deep Links.
+
+
 ```mermaid
 flowchart LR
     DC[DependencyContainer] -- Provides Injection --> AP
