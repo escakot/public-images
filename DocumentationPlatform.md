@@ -1,13 +1,12 @@
 # Documentation Platform
 
-| Github |  | Confluence | |
-| ------ | ----- | ----- | ----- |
-| Pros | Cons | Pros | Cons |
-| Everything in 1 Place | Markdown Only | WYSIWYG | No Approval Process |
-| Merges through PR | Requires Github Access | Easily Accessible | |
-| Version Controler |                | | | 
-
-
+|| Github | Confluence |
+| ------ | ----- | ----- |
+| Features | Markdown & Mermaid Graphs | WYSIWYG |
+| Location | Code & Docs Centralized | Separated |
+| Editing | PR Reviewed | Open to Changes & Back-and-forth reviews |
+| Versioning | Code Diff | Page History |
+| Accessibility | Github Permissions | Confluence Permissions (Accessible by Product) |
 
 ## Confluence vs Github Workflow
 ```mermaid
@@ -17,22 +16,32 @@ sequenceDiagram
     actor ReviewCon
     actor DevCon
     participant Github
-    actor DevGit
-    actor ReviewGit
-    participant GitDocs
     
     DevCon ->> Github: Make Code Changes
-    DevGit ->> Github: Make Code Changes
     DevCon ->> Confluence: Update Documentation
-    DevGit ->> GitDocs: Update Documentation
     
-    DevCon ->> ReviewCon: PR Merge Ready
-    DevGit ->> ReviewGit: PR Merge Ready
+    DevCon ->> ReviewCon: PR Merge Ready. Review Requested
     
-    ReviewCon ->> Github: Review PR
+    ReviewCon ->> Github: Review Code
     ReviewCon ->> Confluence: Review Documentation
-    
-    ReviewGit ->> Github: Review PR
-    ReviewGit ->> GitDocs: Review Documentation
+    ReviewCon ->> DevCon: Request Code Changes
+    DevCon ->> Github: Code fixed
+    DevCon ->> ReviewCon: Request 2nd Review 
+    ReviewCon ->> Github: Approved Review and Merged
+```
+```mermaid
+
+sequenceDiagram
+    actor ReviewGit
+    actor DevGit
+    participant Github
+
+    DevGit ->> Github: Make Code Changes & Update Documentation
+    DevGit ->> ReviewGit: PR Merge Ready. Review Requested
+    ReviewGit ->> Github: Review Code & Documentation
+    ReviewGit ->> DevGit: Request Code Changes
+    DevGit ->> Github: Code fixed
+    DevGit ->> ReviewGit: Request 2nd Review
+    ReviewGit ->> Github: Approved Review and Merged
 
 ```
