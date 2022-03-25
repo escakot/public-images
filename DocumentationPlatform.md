@@ -1,6 +1,6 @@
 # Documentation Platform
 
-|| Github | Confluence |
+| Comparison | Github | Confluence |
 | ------ | ----- | ----- |
 | Features | Markdown & Mermaid Graphs | WYSIWYG |
 | Location | Code & Docs Centralized | Separated - Github & Confluence |
