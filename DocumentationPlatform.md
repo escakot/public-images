@@ -3,10 +3,13 @@
 || Github | Confluence |
 | ------ | ----- | ----- |
 | Features | Markdown & Mermaid Graphs | WYSIWYG |
-| Location | Code & Docs Centralized | Separated |
-| Editing | PR Reviewed | Open to Changes & Back-and-forth reviews |
-| Versioning | Code Diff | Page History |
+| Location | Code & Docs Centralized | Separated - Github & Confluence |
+| Editing | PR Reviewed | Freely changeable |
+| Versioning | Code Diff - Squash Commit | Page History - Multiple Changes |
+| Review Code & Docs | Together | Separate |
+| Reverts | Both reverted together | Very difficult due to versioning | 
 | Accessibility | Github Permissions | Confluence Permissions (Accessible by Product) |
+| Graphs | Built-in & Reviewable | Customizable Draw.io |
 
 ## Confluence vs Github Workflow
 ```mermaid
